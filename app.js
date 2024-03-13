@@ -5,6 +5,7 @@ import path from 'node:path'
 
 const app = new App()
 
+//setup routes
 app
   .use(logger())
   .get(
@@ -16,6 +17,14 @@ app
           if (err) console.error(err)
         }),
         text: () => res.send('Hello World')
+      })
+  )
+  .get(
+    '/public/:page/', (req, res) =>
+      void res.format({
+        css: () => res.sendFile(path.resolve('public/' + req.params['page']), {}, (err) => {
+          if (err) console.error(err); 
+        })
       })
   )
   .get('/page/:page/', (req, res) => {
